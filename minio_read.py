@@ -27,3 +27,8 @@ def count_objects(bucket_name):
 if __name__ == "__main__":
     for b in list_buckets():
         print(b)
+
+
+def delete_bucket(bucket_name):
+    s3.delete_bucket(Bucket=bucket_name)
+    return f"deleted {bucket_name}"
