@@ -6,6 +6,7 @@ from typing import TypedDict
 from minio_read import get_deletable_tag, count_objects, delete_bucket
 from policy import make_proposal, decide
 from proposer import propose
+from audit import log_event
 
 
 class State(TypedDict):
@@ -26,25 +27,28 @@ def evaluate_node(state):
 
 
 def gate_node(state):
-    if state["decision"] == "block":
+    b, d, c, dec = state["bucket"], state["deletable"], state["object_count"], state["decision"]
+
+    if dec == "block":
+        log_event(b, d, c, dec, "BLOCKED")
         return {"result": "BLOCKED by policy \u2014 not deletable"}
 
-    # LLM narrates a recommendation from the REAL facts
-    rec = propose(state["bucket"], state["deletable"], state["object_count"], state["decision"])
+    rec = propose(b, d, c, dec)
 
-    # Pause and show the human BOTH the real facts and the LLM recommendation
     answer = interrupt({
-        "bucket": state["bucket"],
-        "deletable": state["deletable"],
-        "objects": state["object_count"],
+        "bucket": b,
+        "deletable": d,
+        "objects": c,
         "llm_recommendation": rec,
         "ask": "Approve deletion of this bucket?",
     })
 
     if answer == "yes":
-        msg = delete_bucket(state["bucket"])
+        msg = delete_bucket(b)
+        log_event(b, d, c, dec, "EXECUTED")
         return {"result": f"EXECUTED: {msg}", "recommendation": rec}
     else:
+        log_event(b, d, c, dec, "REJECTED")
         return {"result": "REJECTED by human", "recommendation": rec}
 
 
