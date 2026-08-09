@@ -5,3 +5,4 @@ audit.log
 .env
 .langgraph_api/
 DEMO_RUNBOOK.md
+WORKFLOW_NOTES.md
