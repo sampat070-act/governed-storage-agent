@@ -29,11 +29,25 @@ def count_objects(bucket_name):
     resp = s3.list_objects_v2(Bucket=bucket_name)
     return resp.get("KeyCount", 0)
 
+
+
+def show_estate():
+    """Read-only report: every bucket with its deletable tag and object count (live from MinIO)."""
+    print(f'{"BUCKET":22} {"DELETABLE":10} OBJECTS')
+    print("-" * 44)
+    for b in sorted(list_buckets()):
+        print(f'{b:22} {get_deletable_tag(b):10} {count_objects(b)}')
+
+
 if __name__ == "__main__":
     for b in list_buckets():
         print(b)
 
 
 def delete_bucket(bucket_name):
+    # S3 requires an empty bucket before deletion: remove objects first.
+    objects = s3.list_objects_v2(Bucket=bucket_name).get("Contents", [])
+    for obj in objects:
+        s3.delete_object(Bucket=bucket_name, Key=obj["Key"])
     s3.delete_bucket(Bucket=bucket_name)
-    return f"deleted {bucket_name}"
+    return f"deleted {bucket_name} ({len(objects)} objects removed)"

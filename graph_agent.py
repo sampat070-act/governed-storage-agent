@@ -59,4 +59,4 @@ g.add_edge(START, "evaluate")
 g.add_edge("evaluate", "gate")
 g.add_edge("gate", END)
 
-app = g.compile(checkpointer=InMemorySaver())
+app = g.compile()

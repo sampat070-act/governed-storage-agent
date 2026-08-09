@@ -1,0 +1,9 @@
+{
+  "dependencies": [
+    "."
+  ],
+  "graphs": {
+    "governed_storage_agent": "./graph_agent.py:app"
+  },
+  "env": ".env"
+}
