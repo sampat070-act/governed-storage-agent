@@ -4,6 +4,10 @@ An agentic workflow for storage bucket deletion, built on [LangGraph](https://la
 
 Built against a local [MinIO](https://min.io/) S3-compatible object store, using the same `boto3` calls that work against AWS S3 or any S3-compatible backend.
 
+## Why I built this
+
+I'm a storage infrastructure engineer exploring agentic workflows for the first time. I wanted to understand how these systems actually work — especially how you put guardrails around an AI agent so it can help with real operations without doing something destructive on its own. Rather than just read about it, I built one. This project is my hands-on way of learning: how an agent reads state, where the deterministic policy sits, why the LLM should advise but never decide, and how a human stays in the loop. I'm still learning, and I built this to learn by doing.
+
 ## The idea
 
 Destructive storage operations shouldn't be fully automated, but the safe, repetitive parts can be. This agent follows the pattern most production teams have converged on: **read autonomously, gate the writes.**
