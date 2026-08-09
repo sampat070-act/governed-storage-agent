@@ -6,7 +6,11 @@ Built against a local [MinIO](https://min.io/) S3-compatible object store, using
 
 ## Why I built this
 
-I'm a storage infrastructure engineer exploring agentic workflows for the first time. I wanted to understand how these systems actually work — especially how you put guardrails around an AI agent so it can help with real operations without doing something destructive on its own. Rather than just read about it, I built one. This project is my hands-on way of learning: how an agent reads state, where the deterministic policy sits, why the LLM should advise but never decide, and how a human stays in the loop. I'm still learning, and I built this to learn by doing.
+I'm a storage infrastructure engineer exploring agentic workflows. I wanted to understand how these systems actually work — especially how you put guardrails around an AI agent so it can help with real operations without doing something destructive on its own. Rather than just read about it, I built one. This project is my hands-on way of learning: how an agent reads state, where the deterministic policy sits, why the LLM should advise but never decide, and how a human stays in the loop. I designed the architecture and made the decisions myself, and used Claude to help write and accelerate the code.
+
+## Always a student
+
+I built this to learn by doing, and I'm still learning. There's plenty here I'd refine as I go deeper - this is a starting point, not a finished expert's work.
 
 ## The idea
 
